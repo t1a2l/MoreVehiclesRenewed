@@ -5,7 +5,6 @@
 namespace MoreVehicles
 {
     using System.Collections.Generic;
-    using System.Linq;
     using ColossalFramework.Plugins;
     using ICities;
     using MoreVehicles.Patches;
@@ -30,8 +29,6 @@ namespace MoreVehicles
         /// <summary>Called when this mod is enabled.</summary>
         public void OnEnabled()
         {
-            Log.SetupDebug(Name);
-
             if (Compatibility.AreAnyIncompatibleModsActive())
             {
                 Log.Info("'More Vehicles' cannot be started because of incompatible mods");
