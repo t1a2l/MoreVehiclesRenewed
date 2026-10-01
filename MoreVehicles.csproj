@@ -12,44 +12,38 @@
       $(AssemblySearchPaths);
       $(CitiesSkylinesBinaries)
     </AssemblySearchPaths>
-    <OutputPath>..\bin\$(Configuration)\</OutputPath>
-    <AssemblyInformationalVersion>2.0.0-local</AssemblyInformationalVersion>
   </PropertyGroup>
   <ItemGroup>
-    <!-- CitiesHarmony.API provides Harmony 2 (HarmonyLib) compile-time headers; runtime is provided by the Steam mod -->
     <PackageReference Include="CitiesHarmony.API" Version="2.2.0" />
-    <PackageReference Include="GitVersionTask" Version="5.2.4" Condition="'$(OS)' == 'Windows_NT'" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8" />
-    <PackageReference Include="Roslynator.Analyzers" Version="2.3.0" />
-    <PackageReference Include="Roslynator.CodeAnalysis.Analyzers" Version="1.0.0-beta" />
-    <PackageReference Include="StyleCop.Analyzers.Unstable" Version="1.2.0.164" />
   </ItemGroup>
   <ItemGroup>
-    <!-- Harmony-2-compatible SkyTools DLLs (from workshop 3059406297) -->
-    <Reference Include="SkyTools.Common">
-      <HintPath>libs\SkyTools.Common.dll</HintPath>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="ColossalManaged">
+      <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICities">
+      <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="SkyTools.Common">
+      <HintPath>..\SkyTools\src\bin\Debug\SkyTools.Common.dll</HintPath>
     </Reference>
     <Reference Include="SkyTools.Patching">
-      <HintPath>libs\SkyTools.Patching.dll</HintPath>
+      <HintPath>..\SkyTools\src\bin\Debug\SkyTools.Patching.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Program Files (x86)\Steam\steamapps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp" />
-    <Reference Include="ColossalManaged" />
-    <Reference Include="ICities" />
-    <Reference Include="UnityEngine" />
   </ItemGroup>
   <Target Name="DeployToModsDirectory" AfterTargets="Build" DependsOnTargets="Build">
     <PropertyGroup>
-      <CitiesSkylinesModDir>$(HOME)/Library/Application Support/Colossal Order/Cities_Skylines/Addons/Mods/MoreVehicles/</CitiesSkylinesModDir>
+      <CitiesSkylinesModDir>$(LOCALAPPDATA)/Colossal Order/Cities_Skylines/Addons/Mods/MoreVehicles/</CitiesSkylinesModDir>
     </PropertyGroup>
-    <ItemGroup>
-      <!-- Deploy the mod DLL plus the Harmony-2-compatible SkyTools DLLs and CitiesHarmony.API -->
-      <ModFiles Include="$(OutputPath)MoreVehicles.dll" />
-      <ModFiles Include="$(ProjectDir)libs\SkyTools.Common.dll" />
-      <ModFiles Include="$(ProjectDir)libs\SkyTools.Patching.dll" />
-      <ModFiles Include="$(OutputPath)CitiesHarmony.API.dll" />
-    </ItemGroup>
     <MakeDir Directories="$(CitiesSkylinesModDir)" />
     <Message Text="Deploying the mod package to: $(CitiesSkylinesModDir)" Importance="high" />
     <Copy SourceFiles="@(ModFiles)" DestinationFolder="$(CitiesSkylinesModDir)" SkipUnchangedFiles="true" />
